@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  HttpException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -29,6 +30,9 @@ export class TasksService {
 
       return this.taskRepo.save(newTask);
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error; // keep original
+      }
       throw new InternalServerErrorException(error.message);
     }
   }
@@ -51,6 +55,9 @@ export class TasksService {
 
       return { data: items, total, page, limit };
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error; // keep original
+      }
       throw new InternalServerErrorException(error.message);
     }
   }
@@ -59,6 +66,9 @@ export class TasksService {
     try {
       return this.taskRepo.findOneBy({ id });
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error; // keep original
+      }
       throw new InternalServerErrorException(error.message);
     }
   }
@@ -73,6 +83,9 @@ export class TasksService {
 
       return this.taskRepo.update(id, data);
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error; // keep original
+      }
       throw new InternalServerErrorException(error.message);
     }
   }
@@ -86,6 +99,9 @@ export class TasksService {
 
       return this.taskRepo.delete(id);
     } catch (error) {
+      if (error instanceof HttpException) {
+        throw error; // keep original
+      }
       throw new InternalServerErrorException(error.message);
     }
   }

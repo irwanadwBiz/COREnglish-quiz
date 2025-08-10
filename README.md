@@ -1,73 +1,56 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# 📚 COREnglish Quiz API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A backend service for managing COREnglish quiz data using [NestJS](https://nestjs.com/), [TypeORM](https://typeorm.io/), and PostgreSQL.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🚀 How to Run the Project from Scratch
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
+### 1️⃣ Follow All Steps in Order
 ```bash
-$ npm install
-```
+# Clone the repository
+git clone git@github.com:irwanadwBiz/COREnglish-quiz.git
+cd COREnglish-quiz
 
-## Running the app
+# Install dependencies
+npm install
 
-```bash
-# development
-$ npm run start
+# Create .env file
+cat <<EOF > .env
+DATABASE_HOST=DB_HOST
+DATABASE_PORT=DB_PORT
+DATABASE_USER=DB_USER
+DATABASE_PASSWORD=DB_PASSWORD
+DATABASE_NAME=DB_NAME
 
-# watch mode
-$ npm run start:dev
+NODE_ENV=development
+PORT=3000
+EOF
 
-# production mode
-$ npm run start:prod
-```
+# Run PostgreSQL using Docker
+docker run -d \
+  --name core-english-db \
+  -e POSTGRES_USER=DB_USER \
+  -e POSTGRES_PASSWORD=DB_PASSWORD \
+  -e POSTGRES_DB=DB_NAME \
+  -p 5432:5432 \
+  postgres:14
 
-## Test
+# Generate migration (change name as needed)
+npm run migration:generate --name=create-task-schema
 
-```bash
-# unit tests
-$ npm run test
+# Run migration
+npm run mr
 
-# e2e tests
-$ npm run test:e2e
+# Revert Migration
+npm run mrv
 
-# test coverage
-$ npm run test:cov
-```
+# Run tests
+npm run test
 
-## Support
+# Run the application (development mode)
+npm run start:dev
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+# For production
+npm run build
+npm run start:prod
